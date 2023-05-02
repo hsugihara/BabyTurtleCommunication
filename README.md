@@ -30,6 +30,6 @@ Edge AI BOx Light への導入手順
         * sudo systemctl start start_bt.service     （試しに起動してみる）
         * sudo systemctl status start_bt.service　　 （動作確認）
     * rebootで起動するか確認
-        * reboot　　して立ち上がってから
+        * reboot　　して立ち上がってから、
         * sudo systemctl status start_bt.service
 
