@@ -68,4 +68,4 @@ PythonはPython 3.6 にて動作検証しています。
 - chmod u+x send_bt-logs.sh
 - メールで読み出すためのコマンドは、$./send_bt-logs.sh xxx@sample.com になります。xxx@sample.comは任意のメールアドレスです。sendlog.pyでメールアドレスやアプリケーションパスワードを設定してください。
 
-End Of Doc 2023/05/30
+End Of Doc 2023/06/01
