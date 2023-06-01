@@ -6,17 +6,26 @@
 
 Baby TurtleはEDGEMATRIX Inc.が開発した３２ビットMCUを内蔵した超小型ボードで、Edge AI BOX内のJetson moduleとシリアル通信を介してheat beatや各種コマンドのやりとりを行います。またEdge AI BOXの主電源をON/OFFできる機能を持っており、Edge AI BOXの異常を検出した場合に主電源を入れ直すことで異常状態からの回復を試みることが可能です。
 
-Baby Turtleには外付け型と内蔵型の2種類があります。詳細はXXXXを参照してください。
+Baby Turtleには外付け型と内蔵型の2種類があります。詳細はアプリケーションノート（準備中）を参照してください。
 
 以下は外付け型子亀通信プログラムの導入手順になります。
 
 ## 外付け型Baby Turtle 通信プログラム
 
-ファイルは以下の3種類になります。
+ファイルは以下の6種類になります。
 
 - BT-SerialCommunication.py
+  - 外付け子亀とシリアル通信を行います。Edge AI BOXの異常を監視し、必要があれば、子亀にEdge AI Boxのcold boot （電源の入れ直し起動）を要求して自身の回復を試みます。また、シリアル通信にてheart beatを子亀に送っており、子亀側でheart beatが途絶えたことを検出した場合もcold bootを行います。
 - start_bt.service
+  - BT-SerialCommunication.py自動起動用ファイル
 - start_bt.sh
+  - BT-SerialCommunication.py自動起動用シェルスクリプト
+- send_bt-logs.sh
+  - BT-SerialCommunication.pyが吐き出すlogをemailで送出するためのシェルスクリプト
+- sendlog.py
+  - BT-SerialCommunication.pyが吐き出すlogをemailで送出するためのプログラム
+- bt_id.txt
+  - 子亀を区別するためのIDファイル
 
 PythonはPython 3.6 にて動作検証しています。
 
@@ -44,10 +53,19 @@ PythonはPython 3.6 にて動作検証しています。
   - log file folder　　<- /home/nvidia/bt-01を基本にしています
 - python3 BT-SerialCommunication.py で試験。　まだservice 起動していない
 - 動作に問題ないようであれば自動起動設定
-  - /etc/systemd/system の下にサービスファイルをコピーする。
+  - chmod u+x start_bt.shで実行できる様にする。（不要かもしれませんが）
+  - /etc/systemd/systemの下にサービスファイルをコピーする。
     - sudo systemctl enable start_bt.service
     - sudo systemctl start start_bt.service     （試しに起動してみる）
     - sudo systemctl status start_bt.service　　 （動作確認）
     - rebootで起動するか確認
     - reboot　　して立ち上がってから、
     - sudo systemctl status start_bt.service      （動作確認）
+- 以上で正常動作すればbt-01にlogファイル(BT-log)が作られます。BTーlogは毎日bt-log.1~7にてローテーションするようにセーブされます。
+- 以下は、logファイル(BT-log, BT-log.1,...,BT-log.7)をメールで読み出すための設定になります。
+- send_bt_logs.sh, sendlog.py, bt_id.txtを~/bt-01/下にコピーします。
+- bt_id.txtは対象機(子亀と通信し合うEdge AI Box)のidとなりますので、各対象機でユニークなidとなるようにファイル内容を変更してください。フォーマットは自由です。
+- chmod u+x send_bt-logs.sh
+- メールで読み出すためのコマンドは、$./send_bt-logs.sh xxx@edgematrix.com になります。xxx@edgematrix.comは任意のメールアドレスです。メールの送信元アドレスはbt@edgematrix.comになっていますが、必要であればsendlog.pyでusername = 'bt@edgematrix.com'を変更してください。
+
+End Of Doc 2023/05/30
