@@ -8,10 +8,10 @@ from email.mime.application import MIMEApplication
 smtp_host = 'smtp.gmail.com'
 smtp_port = 587
 
-from_email = 'bt@edgematrix.com'
-# to_email = 'hsugihara@edgematrix.com'
-username = 'bt@edgematrix.com'
-app_password = 'yqkbbajkftaeurxf'
+from_email = 'xxxx@example.com'
+
+username = 'xxxx@example.com'
+app_password = 'xxxxxxxxx'
 
 msg = multipart.MIMEMultipart()
 msg['Subject'] = 'log files from bt-01'
