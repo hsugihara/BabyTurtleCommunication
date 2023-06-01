@@ -22,7 +22,7 @@ PythonはPython 3.6 にて動作検証しています。
 
 ### Edge AI BOx Light への導入手順
 
-- Edge AI BOXに nvvidia でlogin します。
+- Edge AI BOXに nvidia でlogin します。
 - pipをインストールします。
   - sudo apt install -y python3-pip
   - python3 -m pip install --upgrade pip
