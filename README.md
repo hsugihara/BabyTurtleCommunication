@@ -63,7 +63,7 @@ PythonはPython 3.6 にて動作検証しています。
     - sudo systemctl status start_bt.service      （動作確認）
 - 以上で正常動作すればbt-01にlogファイル(BT-log)が作られます。BTーlogは毎日bt-log.1~7にてローテーションするようにセーブされます。
 - 以下は、logファイル(BT-log, BT-log.1,...,BT-log.7)をメールで読み出すための設定になります。
-- send_bt_logs.sh, sendlog.py, bt_id.txtを~/bt-01/下にコピーします。
+- send_bt_logs.sh, sendlog.py, bt_id.txtを~/bt-01/下にscpなどでコピーします。
 - bt_id.txtは対象機(子亀と通信し合うEdge AI Box)のidとなりますので、各対象機でユニークなidとなるようにファイル内容を変更してください。フォーマットは自由です。
 - chmod u+x send_bt-logs.sh
 - メールで読み出すためのコマンドは、$./send_bt-logs.sh xxx@edgematrix.com になります。xxx@edgematrix.comは任意のメールアドレスです。メールの送信元アドレスはbt@edgematrix.comになっていますが、必要であればsendlog.pyでusername = 'bt@edgematrix.com'を変更してください。
