@@ -9,7 +9,6 @@ smtp_host = 'smtp.gmail.com'
 smtp_port = 587
 
 from_email = 'xxxx@example.com'
-
 username = 'xxxx@example.com'
 app_password = 'xxxxxxxxx'
 
