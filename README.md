@@ -54,18 +54,20 @@ PythonはPython 3.6 にて動作検証しています。
 - python3 BT-SerialCommunication.py で試験。　まだservice 起動していない
 - 動作に問題ないようであれば自動起動設定
   - chmod u+x start_bt.shで実行できる様にする。（不要かもしれませんが）
-  - /etc/systemd/systemの下にサービスファイルをコピーする。
+  - /etc/systemd/systemの下にサービスファイルをコピーし、次に以下のコマンドを実行する。
     - sudo systemctl enable start_bt.service
     - sudo systemctl start start_bt.service     （試しに起動してみる）
     - sudo systemctl status start_bt.service　　 （動作確認）
     - rebootで起動するか確認
     - reboot　　して立ち上がってから、
     - sudo systemctl status start_bt.service      （動作確認）
-- 以上で正常動作すればbt-01にlogファイル(BT-log)が作られます。BTーlogは毎日bt-log.1~7にてローテーションするようにセーブされます。
+- 以上で正常動作すればbt-01にlogファイル(BT-log)が作られます。BTーlogは毎日早朝２時頃bt-log.1~7にてローテーションするようにセーブされます。
 - 以下は、logファイル(BT-log, BT-log.1,...,BT-log.7)をメールで読み出すための設定になります。
 - send_bt_logs.sh, sendlog.py, bt_id.txtを~/bt-01/下にscpなどでコピーします。
 - bt_id.txtは対象機(子亀と通信し合うEdge AI Box)のidとなりますので、各対象機でユニークなidとなるようにファイル内容を変更してください。フォーマットは自由です。
 - chmod u+x send_bt-logs.sh
+- sendlog.pyファイルをnanoなどでeditし、使用するメールアドレスとそのsmtpサーバーを使用できる設定をします。
+  - sendlog.pyは基本的にgoogle mailを使用するようになっており、メールアドレスとloginするためのアプリケーションパスワードを設定しなければなりません。これらはユーザーにて設定をお願いします。
 - メールで読み出すためのコマンドは、$./send_bt-logs.sh xxx@sample.com になります。xxx@sample.comは任意のメールアドレスです。sendlog.pyでメールアドレスやアプリケーションパスワードを設定してください。
 
-End Of Doc 2023/06/01
+End Of Doc 2023/06/15
