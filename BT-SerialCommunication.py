@@ -417,6 +417,7 @@ def main():
     # just wait for system up and running
     #
     logging.info('program started.  wait for 1 minutes for system up')
+    print("program started.  wait for 1 minutes for system up")
     time.sleep(60)
 
     #
@@ -466,19 +467,18 @@ def main():
             if pstate == STATE_WAIT4BT01:
                 pstate = STATE_HEARTBEAT
                 # DEBUG
-                print('Start SP from WAIT4BT01 to HEARTBEAT')
+                print('Start Shift Process from WAIT4BT01 to HEARTBEAT')
 
                 # read BT-01 status
                 logging.debug("send status request")
                 result = btcom.send(CMD_STATUS_REQ)
                 if result:
                     result, rxdata, rxcommand, rxparameter = btcom.recv(10)
-                    # TODO: here, analysis the status
-                    # not implemented, yet
+                    # status is not implemented, yet in current bt-01
 
                 # sync RTC
                 btcom.syncrtc()
-                # read all logs
+                # read all logs & write them to logging
                 result = btcom.readlogs()
 
                 # Set to read LOG every day at 2:00 am
@@ -498,21 +498,20 @@ def main():
             elif pstate == STATE_BT_DEAD:
                 pstate = STATE_HEARTBEAT
                 # DEBUG
-                print('Start SP from BT_DEAD to HEARTBEAT')
+                print('Start Shift Process from BT_DEAD to HEARTBEAT')
 
                 # read BT-01 status
                 logging.debug("send status request")
                 result = btcom.send(CMD_STATUS_REQ)
                 if result:
                     result, rxdata, rxcommand, rxparameter = btcom.recv(10)
-                    # TODO: here, analysis the status
-                    # not implemented, yet
+                    # status is not implemented, yet in current bt-01
 
                 # sync RTC
                 btcom.syncrtc()
                 # read all logs
                 btcom.readlogs()
-                # Set to read LOG every day at 2:00 am
+
                 # Set to read LOG every day at 2:00 am
                 schedule.every().days.at("02:00").do(btcom.readlogs)
                 # Set to shift log files every day at 2:15am
@@ -545,6 +544,7 @@ def main():
                     #  send alive_req command
                     result = btcom.send(CMD_ALIVE_REQ)
                     if not result:
+                        # 送信不能：何かが異常になった
                         # move to POWERON state
                         state = STATE_POWERON
                         logging.info('Due to serial communication error, shift to state = SATE_POWERON')
@@ -561,6 +561,7 @@ def main():
                             hb_time_end = hb_time_start
                             # DEBUG
                             logging.info('Received HEARTBEAT Response')
+                            print("Received HEARTBEAT Response")
 
                         else:
                             # if not alive_res, just ignore it
@@ -569,6 +570,7 @@ def main():
                             hb_time_end = hb_time_start
                             # DEBUG
                             logging.info('Not received HEARTBEAT response but something else')
+                            print("Not received HEARTBEAT response but something else")
                             continue
 
                     else:
@@ -607,10 +609,11 @@ def main():
                                 # cold reboot request
                                 # DEBUG
                                 logging.info('ping does not reach !!  Send Cold Boot Req and Shutdown')
+                                print("ping does not reach !!  Send Cold Boot Req and Shutdown")
                                 btcom.coldboot()
                                 # check received res
                                 # if received, execute shutdown
-                                # if not resend cold boot request
+                                # if not, maybe can do something
                                 # but ANYWAY shutdown
                                 os.system('shutdown -s')
 
