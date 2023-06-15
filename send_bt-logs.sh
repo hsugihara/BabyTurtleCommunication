@@ -19,7 +19,7 @@ echo "device logs collection completed!"
 echo "send log file by email"
 
 # set to_email
-fr_emal=$1
+fr_email=$1
 appPassword=$2
 to_email=$3
 # echo $to_email
