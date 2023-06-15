@@ -8,13 +8,13 @@ from email.mime.application import MIMEApplication
 smtp_host = 'smtp.gmail.com'
 smtp_port = 587
 
-from_email = 'xxxx@example.com'
-username = 'xxxx@example.com'
-app_password = 'xxxxxxxxx'
+# from_email = 'xxxx@example.com'
+# username = 'xxxx@example.com'
+# app_password = 'xxxxxxxxx'
 
 msg = multipart.MIMEMultipart()
 msg['Subject'] = 'log files from bt-01'
-msg['From'] = from_email
+# msg['From'] = from_email
 # msg['To'] = to_email
 msg.attach(text.MIMEText('Test email', 'plain'))        # 本文
 
@@ -23,14 +23,19 @@ msg.attach(text.MIMEText('Test email', 'plain'))        # 本文
 
 # check argument number
 args = sys.argv
-if 3 != len(args):
-    print('Require two arguments, file name and to_email address')
+if 5 != len(args):
+    print('Require five arguments, file name, from_email address, from_email app-password, and to_email address')
     exit(1)
 
 # set file name and to_email
 attachedfilename = args[1]
-to_email = args[2]
+from_email = args[2]
+appPassword = args[3]
+to_email = args[4]
+msg['From'] = from_email
 msg['To'] = to_email
+username = from_email
+app_password = appPassword
 
 try:
     with open(attachedfilename, 'rb') as f:

@@ -65,9 +65,13 @@ PythonはPython 3.6 にて動作検証しています。
 - 以下は、logファイル(BT-log, BT-log.1,...,BT-log.7)をメールで読み出すための設定になります。
 - send_bt_logs.sh, sendlog.py, bt_id.txtを~/bt-01/下にscpなどでコピーします。
 - bt_id.txtは対象機(子亀と通信し合うEdge AI Box)のidとなりますので、各対象機でユニークなidとなるようにファイル内容を変更してください。フォーマットは自由です。
-- chmod u+x send_bt-logs.sh
-- sendlog.pyファイルをnanoなどでeditし、使用するメールアドレスとそのsmtpサーバーを使用できる設定をします。
-  - sendlog.pyは基本的にgoogle mailを使用するようになっており、メールアドレスとloginするためのアプリケーションパスワードを設定しなければなりません。これらはユーザーにて設定をお願いします。
-- メールで読み出すためのコマンドは、$./send_bt-logs.sh xxx@sample.com になります。xxx@sample.comは任意のメールアドレスです。sendlog.pyでメールアドレスやアプリケーションパスワードを設定してください。
+- chmod u+x send_bt-logs.sh を ~/bt-01 で実行します。
+- sendlog.pyは基本的にgoogle mailを使用するようになっており、メールアドレスとloginするためのアプリケーションパスワードを準備しなければなりません。これらはユーザーにて準備をお願いします。
+- メールで読み出すためのコマンドは、$./send_bt-logs.sh from@fromsample.com from-appPassword to@tosample.com になります。
+  - from@fromsample.com : メールの送信元。このsmtpサーバーを使用します。このメールアドレスはgoogle mailを前提としています。
+  - from-appPassword : 上記smtpサーバー(smtp.google.com)のアプリケーションパスワード。
+  - to@tosample.com : メールの送信先。
+  - /home/nvidia/bt-01 に移動して本コマンドを実行します。
+  - 実行例：$./send_bt-logs.sh tx@sample1.com 1111222233334444 rx@sample2.com
 
-End Of Doc 2023/06/15
+End Of Doc 2023/06/16
